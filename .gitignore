@@ -1,0 +1,10 @@
+.DS_Store
+.vercel
+.obsidian/
+.codex/
+.agents/
+.playwright-cli/
+.superpowers/
+output/
+skills-lock.json
+.env*

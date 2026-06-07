@@ -1,0 +1,22 @@
+{
+  "name": "Lachlan Hamilton",
+  "short_name": "Lachlan Hamilton",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5ecde",
+  "theme_color": "#241b16",
+  "icons": [
+    {
+      "src": "/assets/favicon-lh.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/apple-touch-icon-lh.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

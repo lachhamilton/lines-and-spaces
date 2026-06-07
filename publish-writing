@@ -1,0 +1,44 @@
+#!/bin/sh
+set -eu
+
+cd "$(dirname "$0")"
+
+python3 scripts/build-writing.py
+
+git add \
+  index.html \
+  feed.xml \
+  posts/*.md \
+  [0-9][0-9][0-9][0-9]/[0-9][0-9]/*/index.html
+
+if git diff --cached --quiet; then
+  echo "No Lines & Spaces changes to publish."
+  exit 0
+fi
+
+latest_title=$(python3 - <<'PY'
+from pathlib import Path
+
+latest = None
+for path in Path("posts").glob("*.md"):
+    meta = {}
+    text = path.read_text(encoding="utf-8")
+    if not text.startswith("---\n"):
+        continue
+    _, raw_meta, _ = text.split("---\n", 2)
+    for line in raw_meta.splitlines():
+        if ":" in line:
+            key, value = line.split(":", 1)
+            meta[key.strip()] = value.strip().strip('"')
+    if meta.get("status") != "published":
+        continue
+    item = (meta.get("date", ""), meta.get("title", path.stem))
+    if latest is None or item > latest:
+        latest = item
+
+print(latest[1] if latest else "Lines & Spaces")
+PY
+)
+
+git commit -m "Update Lines & Spaces: $latest_title"
+git push origin main
