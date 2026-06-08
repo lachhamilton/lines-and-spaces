@@ -20,6 +20,8 @@ direction.
   `lachlanhamilton.com`.
 - The portfolio site can reference this as `Words` or as a project, but the blog
   itself should live here.
+- Do not use Lachlan Hamilton portfolio branding or primary portfolio nav on the
+  blog itself. The public blog shell should read as only `Lines & Spaces`.
 - Keep the visual language clean, white, typographic, and direct.
 - Avoid AI-looking cards, tag pills, heavy metaphors, excessive eyebrows, and
   generic editorial/score treatments.

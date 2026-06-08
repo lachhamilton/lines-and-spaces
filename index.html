@@ -3,51 +3,54 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lines &amp; Spaces — Lachlan Hamilton</title>
-    <meta name="description" content="Lines &amp; Spaces by Lachlan Hamilton on music, software, Apple, AI and teaching." />
-    <meta name="theme-color" content="#ffffff" />
-    <link rel="icon" type="image/svg+xml" href="./assets/favicon-lh.svg" />
-    <link rel="apple-touch-icon" href="./assets/apple-touch-icon-lh.png" />
+    <title>Lines &amp; Spaces</title>
+    <meta name="description" content="Notes on Apple, AI, apps, teaching, music, and the places those things overlap." />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon-lines-spaces.svg?v=20260608-wordmark" />
     <link rel="manifest" href="./site.webmanifest" />
     <link rel="alternate" type="application/rss+xml" title="Lines &amp; Spaces" href="https://linesandspaces.net/feed.xml" />
     <link rel="canonical" href="https://linesandspaces.net/" />
+    <script>
+      (() => {
+        try {
+          const theme = localStorage.getItem("lines-spaces-theme");
+          if (theme === "dark" || theme === "light") {
+            document.documentElement.dataset.theme = theme;
+          }
+        } catch (_error) {}
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=20260608-masthead" />
   </head>
   <body class="writing-page">
     <a class="skip-link" href="#main-content">Skip to main content</a>
     <div class="site-shell writing-shell">
       <header class="site-header writing-header">
-        <a class="brand" href="https://lachlanhamilton.com">Lachlan Hamilton</a>
-        <nav class="site-nav" aria-label="Primary">
-          <a href="https://lachlanhamilton.com">Home</a>
-          <a href="https://lachlanhamilton.com/music">Music</a>
-          <a href="https://lachlanhamilton.com/software">Apps</a>
-          <a class="is-active" aria-current="page" href="https://linesandspaces.net/">Words</a>
-          <a href="#contact">Contact</a>
-        </nav>
+        <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+          <span class="theme-toggle-icon" aria-hidden="true"></span>
+          <span class="theme-toggle-text">Dark</span>
+        </button>
       </header>
 
       <main id="main-content" class="writing-index">
         <section class="writing-masthead" aria-labelledby="writing-title">
-          <div class="writing-wordmark" aria-hidden="true">
+          <h1 id="writing-title" class="writing-wordmark">
             <span>Lines</span>
             <span>&amp;</span>
             <span>Spaces</span>
-          </div>
-          <div class="writing-masthead-copy">
-            <h1 id="writing-title">Lines &amp; Spaces</h1>
-            <p>
-              Notes on Apple, AI, apps, teaching, music, and the places those
-              things overlap.
-            </p>
-          </div>
+          </h1>
+          <nav class="writing-masthead-links" aria-label="Lines & Spaces links">
+            <a href="https://linesandspaces.net/feed.xml">RSS feed</a>
+          </nav>
         </section>
+        <p class="writing-byline"><a href="https://lachlanhamilton.com">By Lachlan Hamilton</a></p>
 
         <section class="writing-list" aria-label="Lines & Spaces archive">
           <article class="writing-list-item">
@@ -94,7 +97,7 @@
       </main>
 
       <footer class="site-footer">
-        <p class="footer-meta">© <span id="year"></span> Lachlan Hamilton</p>
+        <p class="footer-meta"><a href="https://linesandspaces.net/feed.xml">RSS</a></p>
       </footer>
     </div>
     <script src="./script.js"></script>

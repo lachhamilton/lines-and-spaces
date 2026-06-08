@@ -1,21 +1,15 @@
 {
-  "name": "Lachlan Hamilton",
-  "short_name": "Lachlan Hamilton",
+  "name": "Lines & Spaces",
+  "short_name": "Lines & Spaces",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f5ecde",
   "theme_color": "#241b16",
   "icons": [
     {
-      "src": "/assets/favicon-lh.svg",
+      "src": "/assets/favicon-lines-spaces.svg?v=20260608-wordmark",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any"
-    },
-    {
-      "src": "/assets/apple-touch-icon-lh.png",
-      "sizes": "180x180",
-      "type": "image/png",
       "purpose": "any"
     }
   ]

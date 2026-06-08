@@ -13,9 +13,10 @@ from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parents[1]
 POSTS = ROOT / "posts"
-MAIN_SITE_URL = "https://lachlanhamilton.com"
 BLOG_SITE_URL = "https://linesandspaces.net"
-AUTHOR = "Lachlan Hamilton"
+SITE_NAME = "Lines & Spaces"
+SITE_DESCRIPTION = "Notes on Apple, AI, apps, teaching, music, and the places those things overlap."
+ASSET_VERSION = "20260608-masthead"
 
 
 @dataclass
@@ -201,33 +202,28 @@ def page_head(title: str, description: str, href_prefix: str = ".", canonical_ur
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{html.escape(title)}</title>
     <meta name="description" content="{html.escape(description, quote=True)}" />
-    <meta name="theme-color" content="#ffffff" />
-    <link rel="icon" type="image/svg+xml" href="{href_prefix}/assets/favicon-lh.svg" />
-    <link rel="apple-touch-icon" href="{href_prefix}/assets/apple-touch-icon-lh.png" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="{href_prefix}/assets/favicon-lines-spaces.svg?v=20260608-wordmark" />
     <link rel="manifest" href="{href_prefix}/site.webmanifest" />
     <link rel="alternate" type="application/rss+xml" title="Lines &amp; Spaces" href="{BLOG_SITE_URL}/feed.xml" />{canonical}
+    <script>
+      (() => {{
+        try {{
+          const theme = localStorage.getItem("lines-spaces-theme");
+          if (theme === "dark" || theme === "light") {{
+            document.documentElement.dataset.theme = theme;
+          }}
+        }} catch (_error) {{}}
+      }})();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="{href_prefix}/styles.css" />"""
-
-
-def nav(current: str, href_prefix: str = ".", contact_href: str = "#contact") -> str:
-    links = [
-        ("Home", MAIN_SITE_URL, "home"),
-        ("Music", f"{MAIN_SITE_URL}/music", "music"),
-        ("Apps", f"{MAIN_SITE_URL}/software", "software"),
-        ("Words", f"{BLOG_SITE_URL}/", "lines-spaces"),
-        ("Contact", contact_href, "contact"),
-    ]
-    rendered = []
-    for label, href, key in links:
-        active = ' class="is-active" aria-current="page"' if key == current else ""
-        rendered.append(f'<a{active} href="{href}">{label}</a>')
-    return "\n          ".join(rendered)
+    <link rel="stylesheet" href="{href_prefix}/styles.css?v={ASSET_VERSION}" />"""
 
 
 def shell(
@@ -248,16 +244,16 @@ def shell(
     <a class="skip-link" href="#main-content">Skip to main content</a>
     <div class="site-shell writing-shell">
       <header class="site-header writing-header">
-        <a class="brand" href="{MAIN_SITE_URL}">Lachlan Hamilton</a>
-        <nav class="site-nav" aria-label="Primary">
-          {nav(current, href_prefix, contact_href)}
-        </nav>
+        <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+          <span class="theme-toggle-icon" aria-hidden="true"></span>
+          <span class="theme-toggle-text">Dark</span>
+        </button>
       </header>
 
       {body}
 
       <footer class="site-footer">
-        <p class="footer-meta">© <span id="year"></span> Lachlan Hamilton</p>
+        <p class="footer-meta"><a href="{BLOG_SITE_URL}/feed.xml">RSS</a></p>
       </footer>
     </div>
     <script src="{href_prefix}/script.js"></script>
@@ -292,19 +288,16 @@ def render_index(posts: list[Post]) -> None:
 
     body = f"""<main id="main-content" class="writing-index">
         <section class="writing-masthead" aria-labelledby="writing-title">
-          <div class="writing-wordmark" aria-hidden="true">
+          <h1 id="writing-title" class="writing-wordmark">
             <span>Lines</span>
             <span>&amp;</span>
             <span>Spaces</span>
-          </div>
-          <div class="writing-masthead-copy">
-            <h1 id="writing-title">Lines &amp; Spaces</h1>
-            <p>
-              Notes on Apple, AI, apps, teaching, music, and the places those
-              things overlap.
-            </p>
-          </div>
+          </h1>
+          <nav class="writing-masthead-links" aria-label="Lines & Spaces links">
+            <a href="{BLOG_SITE_URL}/feed.xml">RSS feed</a>
+          </nav>
         </section>
+        <p class="writing-byline"><a href="https://lachlanhamilton.com">By Lachlan Hamilton</a></p>
 
         <section class="writing-list" aria-label="Lines & Spaces archive">
           {"".join(items)}
@@ -324,8 +317,8 @@ def render_index(posts: list[Post]) -> None:
 
     (ROOT / "index.html").write_text(
         shell(
-            "Lines & Spaces — Lachlan Hamilton",
-            "Lines & Spaces by Lachlan Hamilton on music, software, Apple, AI and teaching.",
+            SITE_NAME,
+            SITE_DESCRIPTION,
             body,
             "lines-spaces",
             canonical_url=f"{BLOG_SITE_URL}/",
@@ -360,7 +353,7 @@ def render_post(post: Post) -> None:
 
     (post_dir / "index.html").write_text(
         shell(
-            f"{post.title} — Lachlan Hamilton",
+            f"{post.title} — {SITE_NAME}",
             excerpt(post.body),
             body,
             "lines-spaces",
@@ -393,7 +386,7 @@ def render_feed(posts: list[Post]) -> None:
   <channel>
     <title>Lines &amp; Spaces</title>
     <link>{BLOG_SITE_URL}/</link>
-    <description>Lines & Spaces by Lachlan Hamilton.</description>
+    <description>{SITE_DESCRIPTION}</description>
     <language>en-au</language>
     <lastBuildDate>{last_build_date}</lastBuildDate>
 {chr(10).join(items)}
