@@ -234,7 +234,17 @@ def shell(
     href_prefix: str = ".",
     contact_href: str = "#contact",
     canonical_url: str | None = None,
+    footer_rss: bool = True,
 ) -> str:
+    footer = (
+        f"""
+      <footer class="site-footer">
+        <p class="footer-meta"><a href="{BLOG_SITE_URL}/feed.xml">RSS</a></p>
+      </footer>"""
+        if footer_rss
+        else ""
+    )
+
     return f"""<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -251,10 +261,7 @@ def shell(
       </header>
 
       {body}
-
-      <footer class="site-footer">
-        <p class="footer-meta"><a href="{BLOG_SITE_URL}/feed.xml">RSS</a></p>
-      </footer>
+{footer}
     </div>
     <script src="{href_prefix}/script.js"></script>
   </body>
@@ -322,6 +329,7 @@ def render_index(posts: list[Post]) -> None:
             body,
             "lines-spaces",
             canonical_url=f"{BLOG_SITE_URL}/",
+            footer_rss=False,
         ),
         encoding="utf-8",
     )
