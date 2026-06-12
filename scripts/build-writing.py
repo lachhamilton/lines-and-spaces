@@ -17,7 +17,7 @@ PUBLISHED_POSTS = POSTS / "published"
 BLOG_SITE_URL = "https://linesandspaces.net"
 SITE_NAME = "Lines & Spaces"
 SITE_DESCRIPTION = "Notes on Apple, AI, apps, teaching, music, and the places those things overlap."
-ASSET_VERSION = "20260608-writing-cleanup"
+ASSET_VERSION = "20260612-paragraph-rhythm"
 FAVICON_VERSION = "20260608-wordmark"
 
 
