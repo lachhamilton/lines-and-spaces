@@ -8,7 +8,7 @@ python3 scripts/build-writing.py
 git add \
   index.html \
   feed.xml \
-  posts/*.md \
+  posts \
   [0-9][0-9][0-9][0-9]/[0-9][0-9]/*/index.html
 
 if git diff --cached --quiet; then
@@ -20,7 +20,7 @@ latest_title=$(python3 - <<'PY'
 from pathlib import Path
 
 latest = None
-for path in Path("posts").glob("*.md"):
+for path in Path("posts/published").glob("*.md"):
     meta = {}
     text = path.read_text(encoding="utf-8")
     if not text.startswith("---\n"):

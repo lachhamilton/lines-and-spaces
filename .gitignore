@@ -1,10 +1,16 @@
 .DS_Store
 .vercel
 .obsidian/
+**/.obsidian/
 .codex/
 .agents/
 .playwright-cli/
 .superpowers/
+__pycache__/
 output/
 skills-lock.json
 .env*
+favicon-preview.html
+*-mockup.html
+assets/*-preview.png
+assets/*-concepts.svg

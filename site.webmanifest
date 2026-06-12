@@ -3,8 +3,8 @@
   "short_name": "Lines & Spaces",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f5ecde",
-  "theme_color": "#241b16",
+  "background_color": "#ffffff",
+  "theme_color": "#111111",
   "icons": [
     {
       "src": "/assets/favicon-lines-spaces.svg?v=20260608-wordmark",

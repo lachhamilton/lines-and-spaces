@@ -3,7 +3,7 @@
 Static blog for `https://linesandspaces.net`.
 
 This project is intentionally plain HTML, CSS, and small JavaScript. There is no
-framework, package install, or build step.
+framework or package install. Publishing runs a small Python generator.
 
 ## Run Locally
 
@@ -21,7 +21,12 @@ http://localhost:4174
 
 ## Writing
 
-Write drafts as Markdown files in `drafts/`. Use front matter:
+Point Obsidian at `posts/` as the writing workspace.
+
+- Drafts live in `posts/drafts/`.
+- Published Markdown sources live in `posts/published/`.
+
+Use front matter:
 
 ```md
 ---
@@ -34,7 +39,7 @@ status: "draft"
 
 To publish a post:
 
-1. Move the Markdown file from `drafts/` to `posts/`.
+1. Move the Markdown file from `posts/drafts/` to `posts/published/`.
 2. Change `status` to `"published"`.
 3. Run:
 

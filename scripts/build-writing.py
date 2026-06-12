@@ -13,10 +13,12 @@ from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parents[1]
 POSTS = ROOT / "posts"
+PUBLISHED_POSTS = POSTS / "published"
 BLOG_SITE_URL = "https://linesandspaces.net"
 SITE_NAME = "Lines & Spaces"
 SITE_DESCRIPTION = "Notes on Apple, AI, apps, teaching, music, and the places those things overlap."
-ASSET_VERSION = "20260608-masthead"
+ASSET_VERSION = "20260608-writing-cleanup"
+FAVICON_VERSION = "20260608-wordmark"
 
 
 @dataclass
@@ -204,7 +206,7 @@ def page_head(title: str, description: str, href_prefix: str = ".", canonical_ur
     <meta name="description" content="{html.escape(description, quote=True)}" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)" />
-    <link rel="icon" type="image/svg+xml" href="{href_prefix}/assets/favicon-lines-spaces.svg?v=20260608-wordmark" />
+    <link rel="icon" type="image/svg+xml" href="{href_prefix}/assets/favicon-lines-spaces.svg?v={FAVICON_VERSION}" />
     <link rel="manifest" href="{href_prefix}/site.webmanifest" />
     <link rel="alternate" type="application/rss+xml" title="Lines &amp; Spaces" href="{BLOG_SITE_URL}/feed.xml" />{canonical}
     <script>
@@ -230,9 +232,7 @@ def shell(
     title: str,
     description: str,
     body: str,
-    current: str,
     href_prefix: str = ".",
-    contact_href: str = "#contact",
     canonical_url: str | None = None,
     footer_rss: bool = True,
 ) -> str:
@@ -270,7 +270,7 @@ def shell(
 
 
 def load_posts() -> list[Post]:
-    posts = [parse_front_matter(path) for path in POSTS.glob("*.md")]
+    posts = [parse_front_matter(path) for path in PUBLISHED_POSTS.glob("*.md")]
     published = [post for post in posts if post.status == "published"]
     return sorted(published, key=lambda post: post.date, reverse=True)
 
@@ -300,7 +300,7 @@ def render_index(posts: list[Post]) -> None:
             <span>&amp;</span>
             <span>Spaces</span>
           </h1>
-          <nav class="writing-masthead-links" aria-label="Lines & Spaces links">
+          <nav class="writing-masthead-links" aria-label="Lines &amp; Spaces links">
             <a href="{BLOG_SITE_URL}/feed.xml">RSS feed</a>
           </nav>
         </section>
@@ -327,7 +327,6 @@ def render_index(posts: list[Post]) -> None:
             SITE_NAME,
             SITE_DESCRIPTION,
             body,
-            "lines-spaces",
             canonical_url=f"{BLOG_SITE_URL}/",
             footer_rss=False,
         ),
@@ -345,7 +344,7 @@ def render_post(post: Post) -> None:
     body = f"""<main id="main-content" class="post-page">
         <article class="post-article">
           <header class="post-header">
-            <a class="post-brand" href="{BLOG_SITE_URL}/" aria-label="Lines & Spaces home">
+            <a class="post-brand" href="{BLOG_SITE_URL}/" aria-label="Lines &amp; Spaces home">
               <span>Lines</span>
               <span>&amp;</span>
               <span>Spaces</span>
@@ -364,9 +363,7 @@ def render_post(post: Post) -> None:
             f"{post.title} — {SITE_NAME}",
             excerpt(post.body),
             body,
-            "lines-spaces",
             "../../..",
-            f"{BLOG_SITE_URL}/#contact",
             post.url,
         ),
         encoding="utf-8",

@@ -33,11 +33,15 @@ direction.
 - Do not revert user changes.
 - Keep copy direct and avoid over-abstract phrasing.
 - Verify pages in the local browser after meaningful frontend changes.
+- Keep shared CSS and JavaScript scoped to the standalone blog. Avoid carrying
+  over portfolio-site selectors, scripts, or visual systems unless the blog
+  explicitly needs them.
 
 ## Publishing
 
-- Drafts live in `drafts/`.
-- Published Markdown sources live in `posts/`.
+- Point Obsidian at `posts/` as the writing workspace.
+- Drafts live in `posts/drafts/`.
+- Published Markdown sources live in `posts/published/`.
 - `scripts/build-writing.py` generates `index.html`, post pages, and `feed.xml`.
 - `vercel.json` keeps deployment static and redirects `www.linesandspaces.net`
   to `https://linesandspaces.net`.
