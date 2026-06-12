@@ -229,7 +229,7 @@ def page_head(title: str, description: str, href_prefix: str = ".", canonical_ur
     <script>
       window.va = window.va || function () {{ (window.vaq = window.vaq || []).push(arguments); }};
     </script>
-    <script defer src="/_vercel/insights/script.js"></script>"""
+    <script defer src="/_vercel/insights/script.js" data-sdkn="@vercel/analytics" data-sdkv="2.0.1"></script>"""
 
 
 def shell(
