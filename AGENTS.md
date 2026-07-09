@@ -41,7 +41,21 @@ direction.
 
 - Point Obsidian at `posts/` as the writing workspace.
 - Drafts live in `posts/drafts/`.
-- Published Markdown sources live in `posts/published/`.
+- Published Markdown sources live in `posts/published/`. Location is the only
+  publish switch — every `.md` in `posts/published/` is built. There is no
+  `status` gate; move a file back to `posts/drafts/` to unpublish.
 - `scripts/build-writing.py` generates `index.html`, post pages, and `feed.xml`.
 - `vercel.json` keeps deployment static and redirects `www.linesandspaces.net`
   to `https://linesandspaces.net`.
+
+## Auto-publish watcher
+
+- A launchd agent (`~/Library/LaunchAgents/net.linesandspaces.publish.plist`,
+  label `net.linesandspaces.publish`) watches `posts/published/` and runs
+  `scripts/publish-watch.sh` on change, which calls `./publish-writing`
+  (build + commit + push). Vercel deploys on push.
+- It fires on directory-content changes (a file moved in, renamed, or removed),
+  not on in-place content edits of an already-published file. To force a rebuild
+  after editing an existing post, run `./publish-writing` manually.
+- Output is logged to `.publish-watch.log` (gitignored).
+- Manage it with `launchctl bootout|bootstrap gui/$(id -u) <plist>`.

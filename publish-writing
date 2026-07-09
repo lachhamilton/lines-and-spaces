@@ -30,8 +30,6 @@ for path in Path("posts/published").glob("*.md"):
         if ":" in line:
             key, value = line.split(":", 1)
             meta[key.strip()] = value.strip().strip('"')
-    if meta.get("status") != "published":
-        continue
     item = (meta.get("date", ""), meta.get("title", path.stem))
     if latest is None or item > latest:
         latest = item

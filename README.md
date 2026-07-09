@@ -33,15 +33,16 @@ Use front matter:
 title: "Post Title"
 date: "2026-06-03"
 slug: "post-title"
-status: "draft"
 ---
 ```
+
+Anything in `posts/published/` is published — the folder is the only switch.
+To unpublish, move the file back to `posts/drafts/`.
 
 To publish a post:
 
 1. Move the Markdown file from `posts/drafts/` to `posts/published/`.
-2. Change `status` to `"published"`.
-3. Run:
+2. Run:
 
 ```sh
 python3 scripts/build-writing.py

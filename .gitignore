@@ -8,6 +8,7 @@
 .superpowers/
 __pycache__/
 output/
+.publish-watch.log
 skills-lock.json
 .env*
 favicon-preview.html

@@ -26,7 +26,6 @@ class Post:
     title: str
     date: str
     slug: str
-    status: str
     source: Path
     body: str
 
@@ -74,7 +73,7 @@ def parse_front_matter(path: Path) -> Post:
         key, value = line.split(":", 1)
         meta[key.strip()] = value.strip().strip('"')
 
-    for required in ("title", "date", "slug", "status"):
+    for required in ("title", "date", "slug"):
         if required not in meta:
             raise ValueError(f"{path} is missing {required!r} front matter")
 
@@ -82,7 +81,6 @@ def parse_front_matter(path: Path) -> Post:
         title=meta["title"],
         date=meta["date"],
         slug=meta["slug"],
-        status=meta["status"],
         source=path,
         body=body.strip(),
     )
@@ -275,8 +273,7 @@ def shell(
 
 def load_posts() -> list[Post]:
     posts = [parse_front_matter(path) for path in PUBLISHED_POSTS.glob("*.md")]
-    published = [post for post in posts if post.status == "published"]
-    return sorted(published, key=lambda post: post.date, reverse=True)
+    return sorted(posts, key=lambda post: post.date, reverse=True)
 
 
 def render_index(posts: list[Post]) -> None:
