@@ -19,6 +19,9 @@ SITE_NAME = "Lines & Spaces"
 SITE_DESCRIPTION = "Notes on Apple, AI, apps, teaching, music, and the places those things overlap."
 ASSET_VERSION = "20260612-paragraph-rhythm"
 FAVICON_VERSION = "20260608-wordmark"
+OG_IMAGE_URL = f"{BLOG_SITE_URL}/assets/og-image.png"
+OG_IMAGE_WIDTH = "1729"
+OG_IMAGE_HEIGHT = "910"
 
 
 @dataclass
@@ -196,12 +199,25 @@ def excerpt(markdown: str) -> str:
     return " ".join(first.split())
 
 
-def page_head(title: str, description: str, href_prefix: str = ".", canonical_url: str | None = None) -> str:
+def page_head(title: str, description: str, href_prefix: str = ".", canonical_url: str | None = None, og_type: str = "website") -> str:
     canonical = f'\n    <link rel="canonical" href="{html.escape(canonical_url, quote=True)}" />' if canonical_url else ""
+    og_url = f'\n    <meta property="og:url" content="{html.escape(canonical_url, quote=True)}" />' if canonical_url else ""
+    social = f"""
+    <meta property="og:site_name" content="{html.escape(SITE_NAME, quote=True)}" />
+    <meta property="og:type" content="{og_type}" />
+    <meta property="og:title" content="{html.escape(title, quote=True)}" />
+    <meta property="og:description" content="{html.escape(description, quote=True)}" />
+    <meta property="og:image" content="{OG_IMAGE_URL}" />
+    <meta property="og:image:width" content="{OG_IMAGE_WIDTH}" />
+    <meta property="og:image:height" content="{OG_IMAGE_HEIGHT}" />{og_url}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{html.escape(title, quote=True)}" />
+    <meta name="twitter:description" content="{html.escape(description, quote=True)}" />
+    <meta name="twitter:image" content="{OG_IMAGE_URL}" />"""
     return f"""<meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{html.escape(title)}</title>
-    <meta name="description" content="{html.escape(description, quote=True)}" />
+    <meta name="description" content="{html.escape(description, quote=True)}" />{social}
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)" />
     <link rel="icon" type="image/svg+xml" href="{href_prefix}/assets/favicon-lines-spaces.svg?v={FAVICON_VERSION}" />
@@ -237,6 +253,7 @@ def shell(
     href_prefix: str = ".",
     canonical_url: str | None = None,
     footer_rss: bool = True,
+    og_type: str = "website",
 ) -> str:
     footer = (
         f"""
@@ -250,7 +267,7 @@ def shell(
     return f"""<!DOCTYPE html>
 <html lang="en">
   <head>
-    {page_head(title, description, href_prefix, canonical_url)}
+    {page_head(title, description, href_prefix, canonical_url, og_type)}
   </head>
   <body class="writing-page">
     <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -366,6 +383,7 @@ def render_post(post: Post) -> None:
             body,
             "../../..",
             post.url,
+            og_type="article",
         ),
         encoding="utf-8",
     )
