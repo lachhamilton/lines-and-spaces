@@ -5,7 +5,23 @@
     <link>https://linesandspaces.net/</link>
     <description>Notes on Apple, AI, apps, teaching, music, and the places those things overlap.</description>
     <language>en-au</language>
-    <lastBuildDate>Fri, 12 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jul 2026 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>GPT-Live</title>
+      <link>https://linesandspaces.net/2026/07/gpt-live</link>
+      <guid>https://linesandspaces.net/2026/07/gpt-live</guid>
+      <pubDate>Thu, 09 Jul 2026 00:00:00 +0000</pubDate>
+      <description>OpenAI announced GPT-Live earlier today, a new voice model that powers ChatGPT’s voice mode.</description>
+      <content:encoded><![CDATA[<p>OpenAI <a href="https://openai.com/index/introducing-gpt-live/">announced GPT-Live</a> earlier today, a new voice model that powers ChatGPT’s voice mode.</p>
+<blockquote><p>We’re launching GPT‑Live, a new generation of voice models that make talking with AI feel much more like having a real conversation.</p></blockquote>
+<p>I watched all of the <a href="https://www.youtube.com/watch?v=EAN5Cj347PY">introductory videos</a> on OpenAI’s YouTube channel, and something peculiar struck me. In each one, the human would continually cut off and interrupt ‘Chat’ (their name for the AI voice). Also from their newsroom post:</p>
+<blockquote><p>Talking with ChatGPT should now feel much more like a real conversation. You can interrupt with a question, pause to gather your thoughts, or ask ChatGPT to slow down.</p></blockquote>
+<p>I felt deeply uncomfortable watching the videos, in the same way that you might feel uneasy if a friend kept talking over you. In my experience, conversational ‘flow’ means leaving space for others to speak, and finding the right moments to speak yourself. OpenAI, on the other hand, are marketing ‘flow’ as interruption.</p>
+<p>It’s concerning that OpenAI seems to be normalising habits that are clearly dismissive, and quite frankly, rude.</p>
+<p>To test this feature out myself, I wrote this post with GPT-Live on my phone next to me. It’s remarkable, and certainly changes the way we interact with our AI chatbots. The conversations indeed are more natural, and I was able to speak to ‘Chat’ without feeling any need to jump in and interrupt.</p>
+<p>That experience left me with a concern. If conversations with AI are starting to feel human, the way we speak to AI matters a lot. Even if it doesn’t feel rude with an AI, getting used to cutting in could still shape how we speak with others.</p>
+<p>If you haven’t tried it yet, open the Chat-GPT app and test it for yourself.</p>]]></content:encoded>
+    </item>
     <item>
       <title>The Next Big Thing: Part 2</title>
       <link>https://linesandspaces.net/2026/06/the-next-big-thing-part-2</link>
