@@ -59,3 +59,13 @@ direction.
   after editing an existing post, run `./publish-writing` manually.
 - Output is logged to `.publish-watch.log` (gitignored).
 - Manage it with `launchctl bootout|bootstrap gui/$(id -u) <plist>`.
+
+## Social announcements
+
+- After a successful push, `publish-writing` runs `scripts/announce.py`, which
+  posts new pieces to the Lines & Spaces Facebook Page (Threads planned).
+- New = not yet in `.announced.json` (gitignored ledger; entries added only
+  after a platform accepts the post, so failures retry on the next publish).
+- Credentials in `.env.local`: `FB_PAGE_ID`, `FB_PAGE_ACCESS_TOKEN` (Page token,
+  never expires). Never commit or print tokens.
+- Test with `python3 scripts/announce.py --dry-run`.

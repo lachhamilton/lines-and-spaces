@@ -40,3 +40,7 @@ PY
 
 git commit -m "Update Lines & Spaces: $latest_title"
 git push origin main
+
+# Announce new posts on social media. Never let a social failure break
+# publishing — the site is already live at this point.
+python3 scripts/announce.py || echo "WARNING: social announce failed; will retry on next publish." >&2

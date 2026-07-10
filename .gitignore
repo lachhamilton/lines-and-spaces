@@ -9,6 +9,7 @@
 __pycache__/
 output/
 .publish-watch.log
+.announced.json
 skills-lock.json
 .env*
 favicon-preview.html
