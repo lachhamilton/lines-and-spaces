@@ -26,6 +26,8 @@ from __future__ import annotations
 import json
 import re
 import sys
+import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -95,6 +97,27 @@ def excerpt(markdown: str, limit: int = 200) -> str:
 
 def compose_message(post: dict[str, str]) -> str:
     return f"{post['title']}\n\n{post['hook']}"
+
+
+def wait_until_live(url: str, timeout: int = 240, interval: int = 10) -> bool:
+    """Wait for the deployed page to serve with its OG tags.
+
+    Announcing races the Vercel deploy: git push returns before the new page
+    exists, and platforms cache whatever their first scrape finds — a 404 at
+    post time means a bare, imageless link card forever. So don't announce
+    until the URL returns 200 AND carries og:image (a 200 from the previous
+    deployment would pass a bare status check).
+    """
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        try:
+            with urllib.request.urlopen(url, timeout=15) as response:
+                if response.status == 200 and b'property="og:image"' in response.read():
+                    return True
+        except (urllib.error.URLError, OSError):
+            pass
+        time.sleep(interval)
+    return False
 
 
 def post_to_facebook(env: dict[str, str], post: dict[str, str]) -> str:
@@ -218,9 +241,15 @@ def main() -> None:
     failures = 0
     for post in sorted(posts, key=lambda p: p["date"]):
         record = ledger.setdefault(post["slug"], {})
-        for platform, publish in PLATFORMS:
-            if platform in record:
-                continue
+        pending = [(p, fn) for p, fn in PLATFORMS if p not in record]
+        if pending and not dry_run and not wait_until_live(post["url"]):
+            failures += 1
+            print(
+                f"SKIPPED announcing {post['title']}: {post['url']} not live in time; will retry next publish.",
+                file=sys.stderr,
+            )
+            continue
+        for platform, publish in pending:
             if dry_run:
                 print(f"[dry-run] would post to {platform}: {post['title']} — {post['url']}")
                 print(f"[dry-run]   message: {compose_message(post)!r}")
