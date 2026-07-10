@@ -132,10 +132,12 @@ def post_to_facebook(env: dict[str, str], post: dict[str, str]) -> str:
     token = env.get("FB_PAGE_ACCESS_TOKEN")
     if not page_id or not token or token == "PASTE_TOKEN_HERE":
         raise RuntimeError("Facebook credentials missing from .env.local")
+    # No separate link attachment: Facebook strips a message URL that
+    # duplicates the attached link, and Lachlan wants the URL visible in the
+    # text. FB auto-detects the message URL and renders the card from it.
     data = urllib.parse.urlencode(
         {
             "message": compose_message(post),
-            "link": post["url"],
             "access_token": token,
         }
     ).encode("utf-8")
