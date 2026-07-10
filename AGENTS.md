@@ -63,9 +63,17 @@ direction.
 ## Social announcements
 
 - After a successful push, `publish-writing` runs `scripts/announce.py`, which
-  posts new pieces to the Lines & Spaces Facebook Page (Threads planned).
+  posts new pieces to the Lines & Spaces Facebook Page and to Threads
+  (@lachlanhamilton, personal profile).
 - New = not yet in `.announced.json` (gitignored ledger; entries added only
   after a platform accepts the post, so failures retry on the next publish).
-- Credentials in `.env.local`: `FB_PAGE_ID`, `FB_PAGE_ACCESS_TOKEN` (Page token,
-  never expires). Never commit or print tokens.
+- Credentials in `.env.local`: `FB_PAGE_ID` + `FB_PAGE_ACCESS_TOKEN` (Page
+  token, never expires), `THREADS_USER_ID` + `THREADS_ACCESS_TOKEN` (long-lived,
+  60 days) and `THREADS_APP_SECRET` (manual recovery only). Never commit or
+  print tokens.
+- The Threads token auto-refreshes on every announce run, plus weekly via
+  launchd agent `net.linesandspaces.threads-refresh` (Mondays 9am,
+  `--refresh-only`; logs to `.publish-watch.log`). If it ever fully lapses
+  (>60 days offline), regenerate via the app dashboard's User Token Generator
+  (app 1014468218134269 → Use cases → Access the Threads API).
 - Test with `python3 scripts/announce.py --dry-run`.
