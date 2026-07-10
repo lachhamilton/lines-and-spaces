@@ -33,8 +33,12 @@ Use front matter:
 title: "Post Title"
 date: "2026-06-03"
 slug: "post-title"
+hook: "Optional one-liner for the Facebook/Threads announcement."
 ---
 ```
+
+`hook` is optional — when it's missing, the announcement uses the post's
+first paragraph.
 
 Anything in `posts/published/` is published — the folder is the only switch.
 To unpublish, move the file back to `posts/drafts/`.

@@ -75,7 +75,9 @@ def parse_post(path: Path) -> dict[str, str] | None:
         return None
     year, month = meta["date"][:4], meta["date"][5:7]
     meta["url"] = f"{BLOG_SITE_URL}/{year}/{month}/{meta['slug']}"
-    meta["hook"] = excerpt(body)
+    # Optional front-matter `hook:` overrides the auto-excerpt.
+    if not meta.get("hook"):
+        meta["hook"] = excerpt(body)
     return meta
 
 
