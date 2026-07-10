@@ -40,6 +40,20 @@ hook: "Optional one-liner for the Facebook/Threads announcement."
 `hook` is optional — when it's missing, the announcement uses the post's
 first paragraph.
 
+### Images
+
+Save images to `posts/images/` and reference them with normal Markdown:
+
+```md
+![A photo of a piano](../images/piano.jpg)
+```
+
+Any local path form works (`../images/piano.jpg`, `images/piano.jpg`, or just
+`piano.jpg`) — the generator resolves by filename to `/posts/images/` on the
+site, so use whichever path previews best in your editor. An image alone on
+its own line renders full-width; images inside a sentence render inline.
+Full `https://` URLs are left as-is.
+
 Anything in `posts/published/` is published — the folder is the only switch.
 To unpublish, move the file back to `posts/drafts/`.
 

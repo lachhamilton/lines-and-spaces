@@ -44,6 +44,11 @@ direction.
 - Published Markdown sources live in `posts/published/`. Location is the only
   publish switch — every `.md` in `posts/published/` is built. There is no
   `status` gate; move a file back to `posts/drafts/` to unpublish.
+- Post images live in `posts/images/`; the generator maps any local Markdown
+  image path to `/posts/images/<basename>` (absolute URLs, so RSS works) and
+  wraps standalone images in `<figure class="post-figure">`. If an image is
+  added to an already-published post, run `./publish-writing` manually — the
+  watcher only fires on `posts/published/` changes.
 - `scripts/build-writing.py` generates `index.html`, post pages, and `feed.xml`.
 - `vercel.json` keeps deployment static and redirects `www.linesandspaces.net`
   to `https://linesandspaces.net`.

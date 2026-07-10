@@ -82,7 +82,8 @@ def parse_post(path: Path) -> dict[str, str] | None:
 
 
 def excerpt(markdown: str, limit: int = 200) -> str:
-    clean = re.sub(r"^\[\^[^\]]+\]:.*$", "", markdown, flags=re.MULTILINE).strip()
+    clean = re.sub(r"^\[\^[^\]]+\]:.*$", "", markdown, flags=re.MULTILINE)
+    clean = re.sub(r"!\[[^\]]*\]\([^)]+\)", "", clean).strip()
     first = re.split(r"\n\s*\n", clean, maxsplit=1)[0]
     first = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", first)
     first = re.sub(r"[*_`>#]", "", first)

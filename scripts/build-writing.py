@@ -17,7 +17,7 @@ PUBLISHED_POSTS = POSTS / "published"
 BLOG_SITE_URL = "https://linesandspaces.net"
 SITE_NAME = "Lines & Spaces"
 SITE_DESCRIPTION = "Notes on Apple, AI, apps, teaching, music, and the places those things overlap."
-ASSET_VERSION = "20260612-paragraph-rhythm"
+ASSET_VERSION = "20260710-post-images"
 FAVICON_VERSION = "20260608-wordmark"
 OG_IMAGE_URL = f"{BLOG_SITE_URL}/assets/og-image.png"
 OG_IMAGE_WIDTH = "1729"
@@ -89,8 +89,26 @@ def parse_front_matter(path: Path) -> Post:
     )
 
 
+def image_url(src: str) -> str:
+    """Map a Markdown image path to its served URL.
+
+    Local paths resolve by basename into posts/images/ regardless of how the
+    source references them (images/foo.png, ../images/foo.png, foo.png), so
+    the same Markdown previews in Lettera and renders on the site. Absolute
+    URLs pass through. Always absolute so the RSS feed works in readers.
+    """
+    if re.match(r"^https?://", src):
+        return src
+    return f"{BLOG_SITE_URL}/posts/images/{quote(src.rsplit('/', 1)[-1])}"
+
+
+def render_image(alt: str, src: str) -> str:
+    return f'<img src="{html.escape(image_url(src), quote=True)}" alt="{alt}" loading="lazy" />'
+
+
 def render_inline(text: str, footnote_numbers: dict[str, int], footnote_prefix: str = "") -> str:
     text = html.escape(text)
+    text = re.sub(r"!\[([^\]]*)\]\(([^)]+)\)", lambda m: render_image(m.group(1), m.group(2)), text)
     text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", lambda m: f'<a href="{html.escape(m.group(2), quote=True)}">{m.group(1)}</a>', text)
     text = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", text)
     text = re.sub(r"\*([^*]+)\*", r"<em>\1</em>", text)
@@ -150,6 +168,16 @@ def render_markdown(markdown: str, footnote_prefix: str = "") -> str:
             flush_quote()
             continue
 
+        standalone_image = re.match(r"^!\[([^\]]*)\]\(([^)]+)\)$", line.strip())
+        if standalone_image:
+            flush_paragraph()
+            flush_list()
+            flush_quote()
+            blocks.append(
+                f'<figure class="post-figure">{render_image(html.escape(standalone_image.group(1)), standalone_image.group(2))}</figure>'
+            )
+            continue
+
         heading = re.match(r"^(#{2,4})\s+(.+)$", line)
         if heading:
             flush_paragraph()
@@ -192,7 +220,8 @@ def render_markdown(markdown: str, footnote_prefix: str = "") -> str:
 
 
 def excerpt(markdown: str) -> str:
-    clean = re.sub(r"^\[\^[^\]]+\]:.*$", "", markdown, flags=re.MULTILINE).strip()
+    clean = re.sub(r"^\[\^[^\]]+\]:.*$", "", markdown, flags=re.MULTILINE)
+    clean = re.sub(r"!\[[^\]]*\]\([^)]+\)", "", clean).strip()
     first = re.split(r"\n\s*\n", clean, maxsplit=1)[0]
     first = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", first)
     first = re.sub(r"[*_`>#]", "", first)

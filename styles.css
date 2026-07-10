@@ -432,6 +432,16 @@ main {
   line-height: 1.16;
 }
 
+.post-body img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.post-body .post-figure {
+  margin: 3.2rem 0;
+}
+
 .post-body h2 {
   font-size: 1.7rem;
 }
