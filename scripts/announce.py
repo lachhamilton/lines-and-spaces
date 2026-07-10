@@ -95,8 +95,15 @@ def excerpt(markdown: str, limit: int = 200) -> str:
     return first
 
 
-def compose_message(post: dict[str, str]) -> str:
-    return f"{post['title']}\n\n{post['hook']}"
+def compose_message(post: dict[str, str], char_limit: int | None = None) -> str:
+    """The social post text: the hook in quotes, then the URL on its own line."""
+    hook = post["hook"]
+    if char_limit:
+        frame = len(f"“”\n\n{post['url']}")
+        room = char_limit - frame
+        if len(hook) > room:
+            hook = hook[: room - 1].rsplit(" ", 1)[0] + "…"
+    return f"“{hook}”\n\n{post['url']}"
 
 
 def wait_until_live(url: str, timeout: int = 240, interval: int = 10) -> bool:
@@ -158,12 +165,8 @@ def post_to_threads(env: dict[str, str], post: dict[str, str]) -> str:
     if not user_id or not token:
         raise RuntimeError("Threads credentials missing from .env.local")
 
-    # Threads has no separate link field: the URL goes in the text and the
-    # first URL gets the link preview card. Budget the 500-char limit.
-    text = f"{compose_message(post)}\n\n{post['url']}"
-    if len(text) > THREADS_CHAR_LIMIT:
-        room = THREADS_CHAR_LIMIT - len(f"{post['title']}\n\n\n\n{post['url']}") - 1
-        text = f"{post['title']}\n\n{post['hook'][:room].rsplit(' ', 1)[0]}…\n\n{post['url']}"
+    # The URL in the text doubles as Threads' link preview source.
+    text = compose_message(post, char_limit=THREADS_CHAR_LIMIT)
 
     container = threads_post(
         f"{user_id}/threads",
