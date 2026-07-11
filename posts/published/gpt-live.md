@@ -1,7 +1,7 @@
 ---
 title: "GPT-Live"
 date: 2026-07-09
-slug: gpt-live
+slug: "gpt-live"
 topic: "Tech Threads"
 ---
 OpenAI [announced GPT-Live](https://openai.com/index/introducing-gpt-live/) earlier today, a new voice model that powers ChatGPT’s voice mode.
