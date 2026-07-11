@@ -40,6 +40,9 @@ BLOG_SITE_URL = "https://linesandspaces.net"
 GRAPH = "https://graph.facebook.com/v23.0"
 THREADS_GRAPH = "https://graph.threads.net/v1.0"
 THREADS_CHAR_LIMIT = 500
+# Default topic tag on Threads posts; a `topic:` front-matter line overrides
+# it per post. No periods or ampersands (API rule).
+THREADS_TOPIC_TAG = "Tech Threads"
 
 
 def load_env() -> dict[str, str]:
@@ -173,7 +176,12 @@ def post_to_threads(env: dict[str, str], post: dict[str, str]) -> str:
 
     container = threads_post(
         f"{user_id}/threads",
-        {"media_type": "TEXT", "text": text, "access_token": token},
+        {
+            "media_type": "TEXT",
+            "text": text,
+            "topic_tag": post.get("topic") or THREADS_TOPIC_TAG,
+            "access_token": token,
+        },
     )
     creation_id = container.get("id")
     if not creation_id:

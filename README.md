@@ -38,7 +38,8 @@ hook: "Optional one-liner for the Facebook/Threads announcement."
 ```
 
 `hook` is optional — when it's missing, the announcement uses the post's
-first paragraph.
+first paragraph. `topic: "..."` is also optional: it sets the Threads topic
+tag for that post (default "Tech Threads"; no periods or ampersands).
 
 ### Images
 
