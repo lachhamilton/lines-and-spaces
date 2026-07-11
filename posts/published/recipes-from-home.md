@@ -3,6 +3,7 @@ title: "Recipes From Home"
 date: "2026-07-10"
 slug: "recipes-from-home"
 hook: "Dad took a photo of every page."
+topic: "Tech Threads"
 ---
 ![Rezepte's home page — hand-drawn soup-pot logo, search bar, and recipe category pills totalling 178 recipes.](../images/rezepte-screenshot.png)
 When I was a kid, and even when I was a bigger kid still living at home, Mum would pull out this little brown recipe book with dozens of handwritten recipes she had collected. It had an orange cooking pot on the cover, with the text “Rezepte”, which is German for recipes. My most recent memories of the book are of it being worse for wear, as you might imagine after at least 40 years of use (Mum says at least 50 years).
